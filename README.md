@@ -1,8 +1,8 @@
-# 小小成長島 · 規格 v0.2.1
+# 小小成長島 · 規格 v0.3
 
 網站：https://zoucian2.github.io/kids-growth-prototype/
 
-依《家庭共同成長系統_模組規格包_v0.2.1.zip》升級。無建置步驟的靜態網站，由 main 根目錄發布。
+依 2026-10-07 三方同步規格 v0.3 升級，完整規則見 [UPGRADE-v0.3.md](UPGRADE-v0.3.md)。無建置步驟的靜態網站，由 main 根目錄發布。
 
 ## 使用
 
@@ -17,18 +17,20 @@
 
 ## 資料
 
-仍使用 localStorage `kids-growth-v02`，新增 `specVersion: 1`。升級前自動保存原始資料至 `kids-growth-v02-before-spec-021`，保留既有餘額與歷史；不追溯補發獎勵。家長可匯出 JSON；匯入需檢查及確認，替換前另存本機備份。可匯出年度成長書 HTML。
+仍使用 localStorage `kids-growth-v02`，目前 `specVersion: 2`。升級前自動保存原始資料（v0.2.1 至 `kids-growth-v02-before-spec-030`；更舊版至 `kids-growth-v02-before-spec-021`），保留既有餘額與歷史；不追溯補發獎勵。家長可匯出 JSON；匯入需檢查及確認，替換前另存本機備份。可匯出年度成長書 HTML。
 
 資料只在目前瀏覽器，未跨裝置同步。清除網站資料會連同本機備份一起清除，請使用 JSON 匯出保存。
 
 ## 範圍與規則
 
-詳細差異與延期項目見 [UPGRADE-v0.2.1.md](UPGRADE-v0.2.1.md)。家庭共成長顯示待開發；好友、雲端同步、真實金錢交易不在本次範圍。生日預設空白，不捏造生日。
+詳細差異與延期項目見 [UPGRADE-v0.3.md](UPGRADE-v0.3.md)，舊版紀錄保留於 [UPGRADE-v0.2.1.md](UPGRADE-v0.2.1.md)。家庭共成長顯示待開發；好友、雲端同步、真實金錢交易不在本次範圍。生日預設空白，不捏造生日。
 
 ## 驗證
 
-- `node --test tests/model.test.cjs tests/spec-model.test.cjs`
-- `node tests/browser.cjs`（需要 Playwright 與 Edge）
+- `node --test tests/model.test.cjs tests/spec-model.test.cjs tests/sync-model.test.cjs`
+- `node tests/spec-browser.cjs` 與 `node tests/sync-browser.cjs`（需要 Playwright 與 Edge）
 - 設定 `TEST_URL` 可對正式網站測試，僅使用隔離瀏覽器資料。
 
 涵蓋週／月週期、撤銷限制、防重複領獎、寶箱、定存到期與提前取回、兌換券退款、願望、情緒重試、家長管理、匯入備份、成長書、重整保存、三人隔離、平板與手機。
+
+家長首頁依序為：跨孩子統一待辦、孩子情緒照顧、今天值得看見、各孩子摘要、陪伴提示與固定快速記錄。孩子卡片入口為「世界 → 信箱 → 接收到的卡片」。

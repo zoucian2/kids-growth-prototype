@@ -8,7 +8,7 @@ function load(){try{state=readState();blocked=false;$('#notice').textContent=''}
 function change(fn){if(blocked){toast('目前無法保存，請先確認瀏覽器儲存設定');return false}try{const next=readState(),result=fn(child?next.children[child]:null,next);if(result===false||result===null)return false;localStorage.setItem(G.KEY,JSON.stringify(next));state=next;return result??true}catch(e){blocked=true;$('#notice').textContent='⚠️ 儲存失敗，這次操作沒有完成。請確認可用空間與瀏覽器設定。';return false}}
 function toast(s){clearTimeout(timer);$('#toast').textContent=s;timer=setTimeout(()=>$('#toast').textContent='',4000)}
 function close(){if($('#modal').open)$('#modal').close();$('#modal').innerHTML='';celebration=null}
-function modal(html){close();$('#modal').innerHTML=html;$('#modal').showModal()}
+function modal(html){close();const dialog=$('#modal');dialog.innerHTML=html;const exits=[...dialog.querySelectorAll('[data-action="close"],[data-s="close"]')];if(exits.length){exits.forEach(b=>{b.textContent='返回';b.type='button'})}else{const back=document.createElement('button');back.type='button';back.dataset.action='close';back.className='dialog-return';back.textContent='返回';dialog.prepend(back)}dialog.showModal()}
 function c(){return state.children[child]}function profile(){return G.profiles.find(p=>p.id===child)}
 function button(label,action,extra=''){return `<button data-action="${action}" ${extra}>${label}</button>`}
 function history(items){return items.length?`<div class="history">${items.slice().reverse().map(x=>`<div class="entry"><strong>${esc(x.title)}</strong><small>${esc(x.date)}${x.skill?' · '+esc(x.skill):''}</small>${x.text?`<p>${esc(x.text)}</p>`:''}</div>`).join('')}</div>`:'<div class="empty">這裡等著收藏你的第一個故事 🌱</div>'}
@@ -46,7 +46,7 @@ document.addEventListener('click',e=>{
  if(parent&&d.approveTask){if(change(c=>G.approveTask(c,d.approveTask))){render();toast('已確認，收穫與故事已加入')}return}
  if(parent&&(d.approveReward||d.cancelReward)){const id=d.approveReward||d.cancelReward;if(d.approveReward){const r=c().redemptions.find(x=>x.id===id);modal(`<h2>確認兌換${esc(r.name)}？</h2><p>依申請時約定使用 ⭐ ${r.cost}。請和孩子安排時間。</p><div class="actions">${button('返回','close')}<button class="primary" data-final-reward="${id}">確認使用星星</button></div>`)}else{change(c=>G.resolveReward(c,id,false));render();toast('已取消，沒有使用星星')}return}
  if(parent&&d.finalReward){let ok=change(c=>G.resolveReward(c,d.finalReward,true));close();render();toast(ok?'兌換完成，和孩子一起安排吧':'未完成，請檢查星星與紀錄');return}
- if(d.world){const item=G.worldItems.find(x=>x.id===d.world);modal(`<h2>${item.icon} ${item.name}</h2><p>使用 🪙 ${item.cost} 金幣加入世界。星星與成長值不變。</p><div class="actions">${button('再想一下','close')}<button class="primary" data-buy-world="${item.id}">確認加入</button></div>`);return}
+ if(d.world){const item=G.worldItems.find(x=>x.id===d.world);modal(`<h2>${item.icon} ${item.name}</h2><p>使用 🪙 ${item.cost} 金幣加入世界。星星與成長值不變。</p><div class="actions">${button('返回','close')}<button class="primary" data-buy-world="${item.id}" ${c().worldItems.includes(item.id)||c().coins<item.cost?'disabled':''}>${c().worldItems.includes(item.id)?'已在我的世界':c().coins<item.cost?'金幣還不夠':'加入我的世界'}</button></div>`);return}
  if(d.buyWorld){let ok=change(c=>G.buyWorld(c,d.buyWorld));close();render();toast(ok?'新的朋友與風景來了！':'目前無法加入，請確認金幣');return}
  switch(d.action){
  case 'close':close();render();break;

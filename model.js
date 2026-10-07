@@ -35,8 +35,8 @@ function approveTask(c,id){let x=c.completions.find(x=>x.id===id);if(!x||x.statu
 function reserved(c){return c.redemptions.filter(x=>x.status==='pending').reduce((n,x)=>n+x.cost,0)}
 function available(c){return c.stars-reserved(c)-(c.savings||0)}
 function requestReward(c,id,catalog=rewards){let r=catalog.find(x=>x.id===id&&x.active!==false);if(!r||available(c)<r.cost)return null;let x={...r,id:uid(),rewardId:r.id,date:day(),status:'pending'};c.redemptions.push(x);return x;}
-function resolveReward(c,id,approve){let r=c.redemptions.find(x=>x.id===id);if(!r||r.status!=='pending')return false;if(approve){if(c.stars-(c.savings||0)<r.cost)return false;c.stars-=r.cost;r.status='approved'}else r.status='cancelled';return true;}
-function saveForGoal(c,amount){if(!c.goal||!Number.isSafeInteger(amount)||amount<=0||available(c)<amount)return false;c.savings+=amount;return true}
+function resolveReward(c,id,approve){let r=c.redemptions.find(x=>x.id===id);if(!r||r.status!=='pending')return false;if(approve){if(c.stars-(c.savings||0)<r.cost)return false;c.stars-=r.cost;r.status='approved';financeStory(c,'redemption:'+r.id,'我做了一次選擇：'+r.name,'我使用 '+r.cost+' 顆星兌換，剩下 '+c.stars+' 顆星。成長值不會因此減少。')}else r.status='cancelled';return true;}
+function saveForGoal(c,amount){if(!c.goal||!Number.isSafeInteger(amount)||amount<=0||available(c)<amount)return false;c.savings+=amount;financeStory(c,'first-saving','我開始為目標儲蓄','我把 '+amount+' 顆星存進目標，練習先留下資源，再決定怎麼用。');return true}
 function releaseSavings(c){if(!c.savings)return false;c.savings=0;return true}
 function buyWorld(c,id){const item=worldItems.find(x=>x.id===id);if(!item||c.worldItems.includes(id)||c.coins<item.cost)return false;c.coins-=item.cost;c.worldItems.push(id);c.worldPurchases.push({...item,date:day()});return true}
 function recordEmotion(c,draft){if(!moods.some(x=>x[1]===draft.mood)||![1,2,3].includes(draft.intensity)||!causes.some(x=>x[1]===draft.cause))return false;const t=emotionTools.find(x=>x.id===draft.toolId);if(!t||!['有一點變化','差不多','更強烈了','還不知道'].includes(draft.after))return false;const x={...draft,id:uid(),date:day(),tool:t.name,learn:t.learn,practiced:!!draft.practiced};c.emotions.push(x);c.records.push({id:uid(),date:x.date,kind:'emotion',title:'我越來越懂自己',skill:'情緒覺察',text:`${x.mood} · ${x.cause} · ${x.practiced?'試過':'想試試'}${t.name}。${t.learn}`});return x}
@@ -46,5 +46,17 @@ function badges(c){const all=c.emotions,practiced=all.filter(x=>x.practiced),day
 {icon:'🌬️',name:'呼吸練習家',text:'在 5 個不同日子試過深呼吸',earned:days('breath')>=5},
 {icon:'🫶',name:'勇敢說出來',text:'試過找信任的人說說',earned:practiced.some(x=>x.toolId==='talk')},
 {icon:'🧭',name:'照顧自己的小步',text:'完成感受、原因、方法與回顧',earned:practiced.some(x=>x.cause&&x.after)}]}
-const api={KEY,profiles,rewards,worldItems,moods,causes,emotionTools,day,uid,defaults,fresh,valid,migrate,status,complete,approveTask,reserved,available,requestReward,resolveReward,saveForGoal,releaseSavings,buyWorld,recordEmotion,badges};if(typeof module!=='undefined')module.exports=api;else root.Growth=api;
+
+const passportCategories=[{id:'life',icon:'🌱',name:'生活',intro:'生活自理、學習、練習與探索'},{id:'emotion',icon:'🫶',name:'情緒',intro:'發現感受、表達需要、照顧自己'},{id:'relationship',icon:'🤝',name:'關係',intro:'傾聽、關懷、合作與被看見'},{id:'finance',icon:'🐷',name:'財商',intro:'認識資源、儲蓄、選擇與消費'}];
+function categoryOf(r){if(passportCategories.some(x=>x.id===r.category))return r.category;if(r.kind==='finance')return 'finance';if(r.kind==='emotion')return 'emotion';if(r.kind==='seen'||r.skill==='品格與關懷'||r.skill==='被看見的成長')return 'relationship';return 'life'}
+function financeStory(c,key,title,text){if(c.records.some(r=>r.kind==='finance'&&r.sourceKey===key))return false;c.records.push({id:uid(),date:day(),kind:'finance',category:'finance',sourceKey:key,title,skill:'資源與選擇',text});return true}
+const financeLessons=[
+{id:'resources',title:'認識三種資源',icon:'⭐',question:'想邀請動物到世界裡，要使用哪一種資源？',options:['星星','金幣','成長值'],responses:['星星用在家裡約定的現實獎勵。世界收藏使用金幣。','金幣用在世界收藏；星星留給現實獎勵，成長值一直保留。','成長值記下我的成長，不會花掉。世界收藏使用金幣。']},
+{id:'needs',title:'需要與想要',icon:'💭',question:'已經有能用的水壺，又看到喜歡的新款式，你會怎麼想？',options:['我想要新的，但可以先等等','先看看舊水壺是否還能用','和家人討論是不是真的需要'],responses:['喜歡一樣東西很正常。我可以先分清想要，再決定什麼時候買。','先檢查現有物品，可以幫我分辨需要與想要。','需要會跟情況改變。我可以說出理由，和家人一起想。']},
+{id:'choices',title:'選擇與等待',icon:'⚖️',question:'假設我有 60 顆星，小獎勵要 40 顆，大目標要 100 顆，我想……',options:['先換小獎勵，剩 20 顆','保留 60 顆，離大目標還差 40 顆','先和家人討論再決定'],responses:['先享受小獎勵也是一種選擇；之後要重新累積到大目標。','等待能靠近大目標；也代表現在先不換小獎勵。','不急著決定也可以。我可以先想哪個對自己更重要。']}
+];
+function finishFinanceLesson(c,id,choice){const l=financeLessons.find(x=>x.id===id);if(!l||!Number.isInteger(choice)||!l.options[choice])return false;return financeStory(c,'lesson:'+id,'我學會了：'+l.title,l.options[choice]+'。'+l.responses[choice])}
+function starLedger(c){const entries=[];for(const x of c.completions)if(x.status==='approved'&&x.stars>0)entries.push({date:x.date,title:x.title,amount:x.stars});for(const x of c.redemptions)if(x.status==='approved')entries.push({date:x.date,title:x.name,amount:-x.cost});return entries.sort((a,b)=>a.date.localeCompare(b.date))}
+
+const api={passportCategories,categoryOf,financeStory,financeLessons,finishFinanceLesson,starLedger,KEY,profiles,rewards,worldItems,moods,causes,emotionTools,day,uid,defaults,fresh,valid,migrate,status,complete,approveTask,reserved,available,requestReward,resolveReward,saveForGoal,releaseSavings,buyWorld,recordEmotion,badges};if(typeof module!=='undefined')module.exports=api;else root.Growth=api;
 })(globalThis);

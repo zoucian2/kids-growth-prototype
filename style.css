@@ -36,3 +36,7 @@
 .mood-scroll .day-dot{scroll-snap-align:center}
 
 .welcome-header{flex-wrap:nowrap;align-items:center}.welcome-header>.brand{width:auto;min-width:0}.welcome-header>button{margin-left:auto;flex-shrink:0}@media(max-width:760px){.welcome-header>.brand{font-size:13px}.welcome-header>button{font-size:13px;padding:10px 12px}}
+
+/* Long story labels wrap on smaller screens. */
+.passport-copy strong{white-space:normal;overflow-wrap:anywhere}
+.task-tile:hover{transform:none}

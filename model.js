@@ -47,7 +47,7 @@ function badges(c){const all=c.emotions,practiced=all.filter(x=>x.practiced),day
 {icon:'🫶',name:'勇敢說出來',text:'試過找信任的人說說',earned:practiced.some(x=>x.toolId==='talk')},
 {icon:'🧭',name:'照顧自己的小步',text:'完成感受、原因、方法與回顧',earned:practiced.some(x=>x.cause&&x.after)}]}
 
-const passportCategories=[{id:'life',icon:'🌱',name:'生活',intro:'生活自理、學習、練習與探索'},{id:'emotion',icon:'🫶',name:'情緒',intro:'發現感受、表達需要、照顧自己'},{id:'relationship',icon:'🤝',name:'關係',intro:'傾聽、關懷、合作與被看見'},{id:'finance',icon:'🐷',name:'財商',intro:'認識資源、儲蓄、選擇與消費'}];
+const passportCategories=[{id:'character',icon:'❤️',name:'我正在成為這樣的人',intro:'生活裡慢慢展現的價值'},{id:'life',icon:'🌱',name:'生活',intro:'生活自理、學習、練習與探索'},{id:'emotion',icon:'🫶',name:'情緒',intro:'發現感受、表達需要、照顧自己'},{id:'relationship',icon:'🤝',name:'關係',intro:'傾聽、關懷、合作與被看見'},{id:'finance',icon:'🐷',name:'財商',intro:'認識資源、儲蓄、選擇與消費'}];
 function categoryOf(r){if(passportCategories.some(x=>x.id===r.category))return r.category;if(r.kind==='finance')return 'finance';if(r.kind==='emotion')return 'emotion';if(r.kind==='seen'||r.skill==='品格與關懷'||r.skill==='被看見的成長')return 'relationship';return 'life'}
 function financeStory(c,key,title,text){if(c.records.some(r=>r.kind==='finance'&&r.sourceKey===key))return false;c.records.push({id:uid(),date:day(),kind:'finance',category:'finance',sourceKey:key,title,skill:'資源與選擇',text});return true}
 const financeLessons=[

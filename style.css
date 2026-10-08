@@ -204,3 +204,14 @@ dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:h
 /* A complete polar bear illustration, with paws resting at the boundary. */
 .island .polar-bear{width:66px;height:84px;flex-shrink:0;overflow:visible}
 @media(max-width:760px){.island .polar-bear{width:44px;height:56px}}
+
+/* Emotion intensity uses a neutral rising-bar icon, words and numbers together. */
+.intensity-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 18px}
+.intensity-choice{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;min-width:0}
+.intensity-icon{display:flex;align-items:flex-end;gap:4px;height:28px;color:#486f70}
+.intensity-icon i{display:block;width:10px;border:1px solid currentColor;border-radius:3px;background:transparent;height:10px}
+.intensity-icon i:nth-child(2){height:18px}.intensity-icon i:nth-child(3){height:26px}.intensity-icon i.filled{background:currentColor}
+.intensity-number{font-size:14px}.care-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0 18px}
+.care-choice{display:flex;flex-direction:column;gap:6px;text-align:left;min-width:0;padding:12px;white-space:normal}
+.care-hint{display:block;font-size:14px;line-height:1.6;font-weight:400;color:#42534d;overflow-wrap:anywhere}
+@media(max-width:480px){.care-choices{grid-template-columns:1fr}}

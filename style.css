@@ -194,3 +194,10 @@ dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:h
 /* Achievement names and progress share the available row width at 1:2. */
 .accumulation-name{flex:1 1 0;overflow-wrap:anywhere}
 .accumulation-track{flex:2 1 0}
+/* Island and its little polar bear stand on the sky/grass boundary. */
+.island{height:300px;padding:0}
+.island-landmark{position:absolute;left:50%;bottom:30%;transform:translateX(-50%);display:flex;align-items:flex-end;gap:18px}
+.island .tree{font-size:100px;line-height:1;white-space:nowrap}
+.island .polar-bear{font-size:48px;line-height:1;display:block;white-space:nowrap}
+.island .animals{position:absolute;top:calc(70% + 18px);left:15px;right:15px;line-height:1.3}
+@media(max-width:760px){.island{height:250px}.island-landmark{gap:12px}.island .tree{font-size:64px}.island .polar-bear{font-size:36px}.island .animals{font-size:26px;letter-spacing:6px}}

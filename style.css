@@ -201,3 +201,6 @@ dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:h
 .island .polar-bear{font-size:48px;line-height:1;display:block;white-space:nowrap}
 .island .animals{position:absolute;top:calc(70% + 18px);left:15px;right:15px;line-height:1.3}
 @media(max-width:760px){.island{height:250px}.island-landmark{gap:12px}.island .tree{font-size:64px}.island .polar-bear{font-size:36px}.island .animals{font-size:26px;letter-spacing:6px}}
+/* A complete polar bear illustration, with paws resting at the boundary. */
+.island .polar-bear{width:66px;height:84px;flex-shrink:0;overflow:visible}
+@media(max-width:760px){.island .polar-bear{width:44px;height:56px}}

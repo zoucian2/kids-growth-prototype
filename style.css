@@ -88,3 +88,29 @@
 .daily-panel .task-copy small{font-size:11px;margin-top:4px}
 .daily-panel .task-icon{font-size:28px}
 }
+/* Consistent page edges and shared header dimensions. */
+.shell:not(.welcome),.shell:has(.passport-grid){max-width:1240px;min-height:100vh;padding:26px 30px 110px}
+.shell:not(.welcome)>header{min-height:52px;gap:12px;margin-bottom:26px}
+.shell:not(.welcome)>header button{min-height:52px;padding:12px 20px;font-size:16px}
+.shell:not(.welcome)>.footer{display:block;margin-top:35px;font-size:12px}
+.character-badge.unearned{filter:none;opacity:1}
+.resource-row{grid-template-columns:minmax(0,1fr) auto auto;min-height:76px}
+.resource-row .balance{grid-column:3}
+.world-summary{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;min-width:0}
+.world-summary h2{margin:0;font-size:20px}
+.world-summary p{margin:0;font-size:14px;overflow-wrap:anywhere}
+.resource-row .mailbox-button{grid-column:2;white-space:nowrap}
+@media(max-width:900px){
+.resource-row{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:76px 52px;gap:12px;margin-bottom:24px}
+.resource-row .world-summary{grid-column:1;grid-row:1}
+.resource-row .mailbox-button{grid-column:2;grid-row:1}
+.resource-row .balance{grid-column:1 / -1;grid-row:2}
+}
+@media(max-width:760px){
+.shell:not(.welcome),.shell:has(.passport-grid){padding:18px 16px 110px}
+.shell:not(.welcome)>header{min-height:44px;gap:8px;margin-bottom:20px}
+.shell:not(.welcome)>header button{min-height:44px;padding:8px 10px;font-size:12px}
+.world-summary{gap:4px}
+.world-summary h2{font-size:17px}
+.world-summary p{font-size:12px}
+}

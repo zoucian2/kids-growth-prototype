@@ -173,3 +173,21 @@
 .today-shell .side-panel .compact-tasks{grid-auto-rows:minmax(84px,auto);min-height:178px}
 .today-shell .compact-tasks .task-empty{font-size:14px}
 }
+/* Keep list browsing inside the panel instead of growing the page. */
+.three-record-list{max-height:min(var(--three-record-height,360px),55dvh);overflow-y:auto;overscroll-behavior-y:contain;scrollbar-gutter:stable;scrollbar-width:thin}
+.three-record-list:focus-visible{outline:2px solid #65936c;outline-offset:3px}
+.mailbox-list{display:grid;gap:12px;margin:8px 0 0}
+.mail-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;text-align:left;min-height:100px;padding:14px 18px;border-radius:18px;border-left:5px solid #d8a941;flex-shrink:0}
+.mail-card strong{grid-column:1 / -1;font-size:18px;overflow-wrap:anywhere}
+.mail-card>span{grid-column:1 / -1;font-size:15px;overflow-wrap:anywhere}
+.mail-card .mail-status{grid-column:2;grid-row:2;white-space:nowrap}
+.mail-card.is-unread{background:#fff0c9;border-color:#d8a941}
+.mail-card.is-read{background:#e7efe5;border-color:#8daa80}
+.mail-card:hover{transform:none}
+.ledger-columns>section{min-width:0}
+.ledger-columns .history{margin-top:12px}
+body:has(dialog[open]){overflow:hidden}
+dialog[open]:has(.three-record-list){display:flex;flex-direction:column;overflow:hidden}
+dialog:has(.three-record-list)>.three-record-list{flex:0 1 auto;min-height:0}
+dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:has(.three-record-list)>.actions{flex-shrink:0}
+@media(max-width:760px){.mail-card{padding:12px;min-height:96px}.mail-card strong{font-size:16px}.mail-card>span{font-size:14px}}

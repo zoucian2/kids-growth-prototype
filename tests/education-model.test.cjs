@@ -1,4 +1,4 @@
-const test=require('node:test'),a=require('node:assert/strict'),G=require('../spec-model');
+const test=require('node:test'),a=require('node:assert/strict'),G=require('../src/site/spec-model');
 const make=()=>G.fresh().children.brother;
 const event=(c,i,source='practice',date='2026-01-01',relatedTag='')=>G.characterEvent(c,{id:'e'+i,source,date,tag:'善良',relatedTag,text:'具體故事'});
 test('six abilities and age guidance, autonomy retained on approval without changing rewards',()=>{

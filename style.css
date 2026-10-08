@@ -43,4 +43,6 @@
 
 .welcome .role{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}.welcome .role .icon{margin:0}.welcome .role h2{margin:0}@media(max-width:760px){.welcome .role{flex-direction:row;justify-content:flex-start;gap:22px}.welcome .role .icon{flex:0 0 80px;text-align:center}}
 
-.welcome .island-icon{font-size:260px;line-height:1;margin:0 auto 20px}@media(max-width:760px){.welcome .island-icon{font-size:130px}}
+.welcome .island-icon{font-size:208px;line-height:1;margin:0 auto 20px}@media(max-width:760px){.welcome .island-icon{font-size:104px}}
+
+.date-title{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 18px}.mood-greeting{font-size:16px;font-weight:400;color:#557361}

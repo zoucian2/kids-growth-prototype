@@ -142,3 +142,34 @@
 .task-group .compact-tasks .task-empty{font-size:15px}
 .catalog-item strong{font-size:12px}
 }
+/* Today uses the same visual scale as the other child pages. */
+.today-shell .date-title{font-size:var(--page-title-size)}
+.today-shell .mood-scroll .week-row{gap:10px;margin:8px 0}
+.today-shell .mood-scroll .day-dot{flex-basis:64px;width:64px;min-height:66px;padding:5px;border-radius:28px}
+.today-shell .mood-scroll .day-dot small{font-size:13px}
+.today-shell .mood-scroll .day-dot span{font-size:24px}
+.today-shell .task-group{margin:16px 0}
+.today-shell .daily-panel,.today-shell .task-panel{padding:16px;border-radius:22px}
+.today-shell .task-quadrants{gap:12px}
+.today-shell .task-quadrants .task-group{margin:0}
+.today-shell .compact-tasks .task-tile,.today-shell .propose-tile{min-height:72px;padding:10px;gap:8px}
+.today-shell .compact-tasks .task-copy strong,.today-shell .propose-tile{font-size:var(--tile-label-size)}
+.today-shell .compact-tasks .task-icon{font-size:28px}
+.today-shell .task-copy small{font-size:12px;margin-top:4px}
+.today-shell .side-panel .compact-tasks{grid-auto-rows:minmax(72px,auto);min-height:154px}
+.today-shell .adventure-column{gap:10px}
+.today-shell .compact-tasks .task-empty{font-size:16px}
+@media(max-width:760px){
+.today-shell .mood-scroll .day-dot{flex-basis:52px;width:52px;min-height:60px;border-radius:24px}
+.today-shell .mood-scroll .day-dot small{font-size:11px}
+.today-shell .mood-scroll .day-dot span{font-size:22px}
+.today-shell .mood-scroll .week-row{gap:8px}
+.today-shell .daily-panel,.today-shell .task-panel{padding:10px;border-radius:18px}
+.today-shell .task-quadrants{gap:10px}
+.today-shell .compact-tasks .task-tile,.today-shell .propose-tile{min-height:84px;padding:8px 4px;gap:5px}
+.today-shell .compact-tasks .task-copy strong{font-size:14px}
+.today-shell .compact-tasks .task-icon{font-size:24px}
+.today-shell .task-copy small{font-size:11px}
+.today-shell .side-panel .compact-tasks{grid-auto-rows:minmax(84px,auto);min-height:178px}
+.today-shell .compact-tasks .task-empty{font-size:14px}
+}

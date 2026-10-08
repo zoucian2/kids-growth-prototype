@@ -191,3 +191,6 @@ dialog[open]:has(.three-record-list){display:flex;flex-direction:column;overflow
 dialog:has(.three-record-list)>.three-record-list{flex:0 1 auto;min-height:0}
 dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:has(.three-record-list)>.actions{flex-shrink:0}
 @media(max-width:760px){.mail-card{padding:12px;min-height:96px}.mail-card strong{font-size:16px}.mail-card>span{font-size:14px}}
+/* Achievement names and progress share the available row width at 1:2. */
+.accumulation-name{flex:1 1 0;overflow-wrap:anywhere}
+.accumulation-track{flex:2 1 0}

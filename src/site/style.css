@@ -228,3 +228,7 @@ dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:h
 .emotion-v25 button:focus-visible{outline:3px solid #d59a2c;outline-offset:2px}
 .emotion-v25 [data-em-key="intensity"] span{display:block;font-size:28px;line-height:1.3;margin-bottom:4px}
 @media(max-width:480px){.emotion-v25 .choices,.emotion-v25 .care-choices{gap:8px}.emotion-v25 .choices>button,.emotion-v25 .care-choice{font-size:14px;padding:10px 6px}.emotion-v25 .care-hint{font-size:12px}}
+
+.emotion-care-actions{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:10px;margin-top:14px}
+.emotion-care-actions>button{width:100%;min-width:0;margin:0;padding:12px 8px}
+.emotion-care-actions>[data-s="em-next"]{background:#285d4d;color:#fff}

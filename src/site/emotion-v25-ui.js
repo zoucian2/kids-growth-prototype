@@ -29,7 +29,7 @@ emotionScreen=function(){
  html+=back?'<p>昨天補記只留下感覺與原因，不提供家人或小白熊回覆。</p>':'<h3>我想跟誰說？</h3>'+picks(G.listeners,'listener')+'<p class="muted">家長可看紀錄；選擇不跟大人說時只能靜默陪伴。小白熊的話由家人選擇，這裡沒有 AI 對話。</p>';
  html+=sb(back?'記下昨天的我':'接著看看','em-next',!d.causes.length||!back&&!d.listener?'disabled':'');
  }
- if(d.step===3)html='<h2>我需要</h2><p>這輪最多選兩項，沒有變好也沒關係。</p><div class="care-choices">'+(G.emotionData.care[d.mood]||[]).map(x=>{const picked=d.choices.find(y=>y.label===x.label);return '<div class="care-option"><button data-em-key="careChoice" data-value="'+esc(x.label)+'" aria-pressed="'+!!picked+'" class="care-choice '+(picked?'active':'')+'"><strong>'+esc(x.label)+'</strong><span class="care-hint">'+esc(x.hint)+'</span></button>'+'</div>';}).join('')+'</div>'+sb('看看現在的感覺','em-next',!d.choices.length?'disabled':'')+sb('先這樣就好','em-neutral');
+ if(d.step===3)html='<h2>我需要</h2><p>這輪最多選兩項，沒有變好也沒關係。</p><div class="care-choices">'+(G.emotionData.care[d.mood]||[]).map(x=>{const picked=d.choices.find(y=>y.label===x.label);return '<div class="care-option"><button data-em-key="careChoice" data-value="'+esc(x.label)+'" aria-pressed="'+!!picked+'" class="care-choice '+(picked?'active':'')+'"><strong>'+esc(x.label)+'</strong><span class="care-hint">'+esc(x.hint)+'</span></button>'+'</div>';}).join('')+'</div><div class="emotion-care-actions">'+sb('看看現在的感覺','em-next',!d.choices.length?'disabled':'')+sb('先這樣就好','em-neutral')+'</div>';
  if(d.step===4){html='<h2>我的發現</h2>';
  if(brief)html+='<p>謝謝你留意今天的感受，先記下這個片刻。</p>';
  else{html+='<h3>現在感覺如何？</h3>'+picks(['好多了','好一點','還是一樣','更強烈'],'after')+'<p>感受可以維持原樣，不需要急著變開心。</p>';

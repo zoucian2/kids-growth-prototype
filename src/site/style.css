@@ -218,3 +218,13 @@ dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:h
 
 /* v2.5: readable controls, no horizontal clipping. */
 .emotion-v25 .choices{flex-wrap:wrap}.emotion-v25 button{white-space:normal;overflow-wrap:anywhere;max-width:100%}.emotion-v25 [aria-pressed="true"]{outline:3px solid #377c65;background:#e3f1df}.care-option{min-width:0}.care-option .care-choice{width:100%}.emotion-v25 .care-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
+
+/* Emotion selections stay three across, with two rows visible at a time. */
+.emotion-v25 .choices,.emotion-v25 .care-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-height:var(--six-options-height,none);overflow-y:auto;overscroll-behavior:contain;padding:3px;margin:12px 0 18px;align-items:stretch;scrollbar-gutter:stable}
+.emotion-v25 .choices>button,.emotion-v25 .care-choice{width:100%;min-width:0;min-height:52px;height:100%;padding:12px 8px}
+.emotion-v25 [aria-pressed="true"],.emotion-v25 [aria-expanded="true"]{background:#285d4d;color:#fff;outline:3px solid #194537}
+.emotion-v25 [aria-pressed="true"] .care-hint{color:#fff}
+.emotion-v25>button[data-s="em-next"],.emotion-v25>button[data-s="em-save"]{display:block;width:100%;margin-top:14px;background:#285d4d;color:#fff}
+.emotion-v25 button:focus-visible{outline:3px solid #d59a2c;outline-offset:2px}
+.emotion-v25 [data-em-key="intensity"] span{display:block;font-size:28px;line-height:1.3;margin-bottom:4px}
+@media(max-width:480px){.emotion-v25 .choices,.emotion-v25 .care-choices{gap:8px}.emotion-v25 .choices>button,.emotion-v25 .care-choice{font-size:14px;padding:10px 6px}.emotion-v25 .care-hint{font-size:12px}}

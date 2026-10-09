@@ -35,7 +35,7 @@ emotionScreen=function(){
  else{html+='<h3>現在感覺如何？</h3>'+picks(['好多了','好一點','還是一樣','更強烈'],'after')+'<p>感受可以維持原樣，不需要急著變開心。</p>';
  if(['還是一樣','更強烈'].includes(d.after))html+=(d.rounds.length<2?v25button('再試一輪','retry'):'<p>已試了三輪，可以找信任的大人陪你。</p>')+v25button('先休息','rest')+v25button('找信任的大人','adult');
  }html+=sb('記下這一小步','em-save',!brief&&!d.after?'disabled':'');}
- return '<div class="row"><p>'+esc(d.date)+(back?' · 補記昨天':' · '+d.step+' / 4')+'</p>'+sb('先回今天','em-exit')+'</div><section class="card emotion-v25">'+(d.step>1?sb('← 上一步','em-back'):'')+html+'</section>';
+ return '<div class="row"><p>'+esc(d.date)+(back?' · 補記昨天':' · '+d.step+' / 4')+'</p>'+'</div><section class="card emotion-v25">'+(d.step>1?sb('← 上一步','em-back'):'')+html+'</section>';
 };
 saveMood=function(neutral=false){
  const d=draft25(),brief=['開心','平靜','興奮'].includes(d.mood),back=d.date!==G.day();

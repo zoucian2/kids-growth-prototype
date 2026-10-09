@@ -4,15 +4,6 @@ const emotionIntensityFaces={
  '生氣':['😒','😠','😡'],'害怕':['😟','😨','😱'],'緊張':['😟','😰','😖'],
  '累累':['😪','😴','🥱'],'興奮':['😊','🤩','🥳'],'不知道':['🤔','😕','😵‍💫']
 };
-function fitEmotionOptions(){
- document.querySelectorAll('.emotion-v25 .choices,.emotion-v25 .care-choices').forEach(list=>{
-  if(!list.children.length)return;const rows=[...list.children],first=rows[0].getBoundingClientRect(),last=rows[Math.min(5,rows.length-1)].getBoundingClientRect();
-  list.style.setProperty('--six-options-height',Math.ceil(last.bottom-first.top)+6+'px');
-  if(rows.length>6){list.tabIndex=0;list.setAttribute('aria-label','選項列表，每排三個，可上下滑動');const selected=rows.find(x=>x.matches('[aria-pressed="true"]')||x.querySelector('[aria-pressed="true"]'));if(selected&&selected.getBoundingClientRect().bottom>list.getBoundingClientRect().bottom)list.scrollTop=selected.offsetTop-rows[0].offsetTop;}
- });
-}
-window.addEventListener('resize',fitEmotionOptions);
-
 const v25button=(text,action,id='')=>'<button data-v25="'+action+'" data-id="'+esc(id)+'">'+text+'</button>';
 function draft25(){if(!moodDraft)moodDraft={date:G.day(),step:1,intensity:1};moodDraft.causes??=[];moodDraft.rounds??=[];moodDraft.choices??=[];return moodDraft;}
 function handleV25Pick(v){
@@ -31,8 +22,8 @@ emotionScreen=function(){
  const d=draft25(),back=d.date!==G.day(),brief=['開心','平靜','興奮'].includes(d.mood);
  const picks=(items,k)=>'<div class="choices">'+items.map(x=>'<button data-em-key="'+k+'" data-value="'+esc(x)+'" aria-pressed="'+(String(d[k])===String(x))+'">'+esc(x)+'</button>').join('')+'</div>';
  let html='';
- if(d.step===1)html='<h2>我的感覺</h2><div class="choices mood-grid">'+G.moods.map(([i,m])=>'<button data-em-key="mood" data-value="'+m+'" aria-pressed="'+(d.mood===m)+'">'+i+' '+m+'</button>').join('')+'</div><small class="muted">在上方選項內上下滑動，看看其他感覺。</small><h3>感覺有多強烈？</h3><div class="choices">'+[1,2,3].map(n=>'<button data-em-key="intensity" data-value="'+n+'" aria-pressed="'+(Number(d.intensity)===n)+'"><span aria-hidden="true">'+(emotionIntensityFaces[d.mood]||['🙂','😐','😮'])[n-1]+'</span> '+['一點點','有一些','很強烈'][n-1]+' · '+n+'</button>').join('')+'</div>'+sb('接著看看','em-next',!d.mood?'disabled':'');
- if(d.step===2){const groups=G.emotionData.causes[d.mood]||[],cause=x=>'<button data-em-key="cause" data-value="'+esc(x)+'" class="'+(d.causes.includes(x)?'active':'')+'" aria-pressed="'+d.causes.includes(x)+'">'+esc(x)+'</button>';
+ if(d.step===1)html='<h2>我的感覺</h2><div class="choices mood-grid">'+G.moods.map(([i,m])=>'<button data-em-key="mood" data-value="'+m+'" aria-pressed="'+(d.mood===m)+'">'+i+' '+m+'</button>').join('')+'</div><h3>感覺有多強烈？</h3><div class="choices">'+[1,2,3].map(n=>'<button data-em-key="intensity" data-value="'+n+'" aria-pressed="'+(Number(d.intensity)===n)+'"><span aria-hidden="true">'+(emotionIntensityFaces[d.mood]||['🙂','😐','😮'])[n-1]+'</span> '+['一點點','有一些','很強烈'][n-1]+' · '+n+'</button>').join('')+'</div>'+sb('接著看看','em-next',!d.mood?'disabled':'');
+ if(d.step===2){const groups=G.emotionData.causes[d.mood]||[];if(!groups.some(g=>g.category===d.category))d.category=groups[0]?.category||'';const cause=x=>'<button data-em-key="cause" data-value="'+esc(x)+'" class="'+(d.causes.includes(x)?'active':'')+'" aria-pressed="'+d.causes.includes(x)+'">'+esc(x)+'</button>';
  html='<h2>我想表達</h2><p>可以跨類選兩個，也可以不說原因。已選 '+d.causes.length+' 個。</p><div class="choices">'+groups.map(g=>'<button data-v25="category" data-id="'+esc(g.category)+'" aria-expanded="'+(d.category===g.category)+'">'+esc(g.category)+'</button>').join('')+'</div><div class="choices">'+(groups.find(g=>g.category===d.category)?.items||[]).map(cause).join('')+'</div><div class="choices">'+G.emotionData.common.map(cause).join('')+'</div><p>'+d.causes.map(x=>'<span class="pill">'+esc(x)+'</span>').join(' ')+'</p>';
  if(d.causes.includes('有人傷害或威脅我')||d.causes.includes('有人讓我害怕')||d.causes.includes('有人做了讓我不舒服的事'))html+='<div class="hero" role="note">如果現在不安全，先離開危險，找能保護你的可信任大人幫忙；可以是老師或其他可信任的人。這個畫面沒有通知或通報任何人，不用等流程完成。</div>';
  html+=back?'<p>昨天補記只留下感覺與原因，不提供家人或小白熊回覆。</p>':'<h3>我想跟誰說？</h3>'+picks(G.listeners,'listener')+'<p class="muted">家長可看紀錄；選擇不跟大人說時只能靜默陪伴。小白熊的話由家人選擇，這裡沒有 AI 對話。</p>';
@@ -44,7 +35,6 @@ emotionScreen=function(){
  else{html+='<h3>現在感覺如何？</h3>'+picks(['好多了','好一點','還是一樣','更強烈'],'after')+'<p>感受可以維持原樣，不需要急著變開心。</p>';
  if(['還是一樣','更強烈'].includes(d.after))html+=(d.rounds.length<2?v25button('再試一輪','retry'):'<p>已試了三輪，可以找信任的大人陪你。</p>')+v25button('先休息','rest')+v25button('找信任的大人','adult');
  }html+=sb('記下這一小步','em-save',!brief&&!d.after?'disabled':'');}
- requestAnimationFrame(fitEmotionOptions);
  return '<div class="row"><p>'+esc(d.date)+(back?' · 補記昨天':' · '+d.step+' / 4')+'</p>'+sb('先回今天','em-exit')+'</div><section class="card emotion-v25">'+(d.step>1?sb('← 上一步','em-back'):'')+html+'</section>';
 };
 saveMood=function(neutral=false){

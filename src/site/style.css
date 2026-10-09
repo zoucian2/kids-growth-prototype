@@ -174,7 +174,7 @@
 .today-shell .compact-tasks .task-empty{font-size:14px}
 }
 /* Keep list browsing inside the panel instead of growing the page. */
-.three-record-list{max-height:min(var(--three-record-height,360px),55dvh);overflow-y:auto;overscroll-behavior-y:contain;scrollbar-gutter:stable;scrollbar-width:thin}
+.three-record-list{max-height:min(var(--three-record-height,360px),55dvh);overflow-y:auto;overscroll-behavior-y:contain;;scrollbar-width:thin}
 .three-record-list:focus-visible{outline:2px solid #65936c;outline-offset:3px}
 .mailbox-list{display:grid;gap:12px;margin:8px 0 0}
 .mail-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;text-align:left;min-height:100px;padding:14px 18px;border-radius:18px;border-left:5px solid #d8a941;flex-shrink:0}
@@ -219,8 +219,8 @@ dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:h
 /* v2.5: readable controls, no horizontal clipping. */
 .emotion-v25 .choices{flex-wrap:wrap}.emotion-v25 button{white-space:normal;overflow-wrap:anywhere;max-width:100%}.emotion-v25 [aria-pressed="true"]{outline:3px solid #377c65;background:#e3f1df}.care-option{min-width:0}.care-option .care-choice{width:100%}.emotion-v25 .care-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
 
-/* Emotion selections stay three across, with two rows visible at a time. */
-.emotion-v25 .choices,.emotion-v25 .care-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-height:var(--six-options-height,none);overflow-y:auto;overscroll-behavior:contain;padding:3px;margin:12px 0 18px;align-items:stretch;scrollbar-gutter:stable}
+/* Emotion options adapt to device width, with all rows visible. */
+.emotion-v25 .choices,.emotion-v25 .care-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-height:none;overflow:visible;padding:3px;margin:12px 0 18px;align-items:stretch;}
 .emotion-v25 .choices>button,.emotion-v25 .care-choice{width:100%;min-width:0;min-height:52px;height:100%;padding:12px 8px}
 .emotion-v25 [aria-pressed="true"],.emotion-v25 [aria-expanded="true"]{background:#285d4d;color:#fff;outline:3px solid #194537}
 .emotion-v25 [aria-pressed="true"] .care-hint{color:#fff}

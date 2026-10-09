@@ -232,3 +232,12 @@ dialog:has(.three-record-list)>h2,dialog:has(.three-record-list)>.muted,dialog:h
 .emotion-care-actions{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:10px;margin-top:14px}
 .emotion-care-actions>button{width:100%;min-width:0;margin:0;padding:12px 8px}
 .emotion-care-actions>[data-s="em-next"]{background:#285d4d;color:#fff}
+
+/* Keep tablet resource headings together and each resource value unbroken. */
+.resource-row{grid-template-columns:minmax(0,1fr) auto auto;grid-template-rows:auto;gap:10px;min-height:64px}
+.resource-row .world-summary,.resource-row .treasure-title{grid-column:1;grid-row:1}
+.resource-row .mailbox-button{grid-column:2;grid-row:1}
+.resource-row .balance{grid-column:3;grid-row:1;display:flex;gap:12px;flex-wrap:nowrap;padding:12px 14px;font-size:16px;white-space:nowrap;max-width:100%;overflow-x:auto}
+.resource-row .balance span{white-space:nowrap;flex-shrink:0}
+@media(min-width:700px) and (max-width:960px){.resource-row{gap:8px}.resource-row .mailbox-button{font-size:14px;padding:10px}.resource-row .balance{font-size:14px;gap:8px;padding:10px}.resource-row .treasure-title h2{font-size:20px}}
+@media(max-width:699px){.resource-row{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:10px}.resource-row .balance{grid-column:1 / -1;grid-row:2;justify-self:end;font-size:13px;gap:8px;padding:10px}.resource-row .mailbox-button{font-size:13px}}

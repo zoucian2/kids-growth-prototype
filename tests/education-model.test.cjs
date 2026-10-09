@@ -30,9 +30,9 @@ test('v0.3 upgrade preserves old badges, balances, cards and is repeatable',()=>
  const s=G.fresh(),c=s.children.brother;delete s.educationVersion;c.stars=777;c.coins=9;c.growth=88;c.characterBadges.push({id:'old',tag:'善良',tier:1,title:'善良小種子'});G.sendCard(c,{content:'原文卡片',author:'阿嬤'});
  G.upgrade(s);const once=JSON.stringify(s);a.equal(c.characterBadges[0].legacy,true);a.equal(c.stars,777);a.equal(c.coins,9);a.equal(c.growth,88);a.equal(c.mailbox[0].content,'原文卡片');G.upgrade(s);a.equal(JSON.stringify(s),once);
 });
-test('wish revision preserves money and card count, releases hold, requires approval, guards redeemed',()=>{
+test('wish revision preserves money and card count, keeps independent hold, requires approval, guards redeemed',()=>{
  const c=make();c.stars=900;const w=G.makeWish(c,'週末活動','想出去','🎡');G.approveWish(c,w.id,800);G.saveForGoal(c,400);const cards=c.wishCards;
- a.ok(G.reviseWish(c,w.id,'桌遊','想一起玩'));a.equal(c.stars,900);a.equal(c.savings,0);a.equal(c.wishCards,cards);a.equal(w.status,'pending');a.equal(w.revisions[0].name,'週末活動');a.equal(G.redeemWish(c),false);
+ a.ok(G.reviseWish(c,w.id,'桌遊','想一起玩'));a.equal(c.stars,900);a.equal(c.savings,400);a.equal(c.wishCards,cards);a.equal(w.status,'pending');a.equal(w.revisions[0].name,'週末活動');a.equal(G.redeemWish(c),false);
  G.approveWish(c,w.id,500);G.redeemWish(c);a.equal(G.reviseWish(c,w.id,'新','想要'),false);
 });
 test('v1 seen migration never reclassifies newly calculated stages as legacy duplicates',()=>{

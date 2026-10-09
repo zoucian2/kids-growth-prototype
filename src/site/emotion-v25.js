@@ -44,7 +44,7 @@ function remove(c,id,month){init(c);const x=c.emotions.find(x=>x.id===id);if(!x&
  cleanup(c,[id],x?[x.date]:[]);c.emotionExpired=c.emotionExpired.filter(e=>e.id!==id);return true;}
 function requestDelete(c,id){const x=c.emotions.find(x=>x.id===id);if(!x)return false;x.deletionStatus='pending';return true;}
 function decideDelete(c,id,approved){init(c);const x=c.emotions.find(x=>x.id===id);if(!x)return approved&&(c.emotionDeleted.includes(id)||c.emotionExpired.some(e=>e.id===id)&&remove(c,id));if(x.deletionStatus!=='pending')return false;if(approved)return remove(c,id);x.deletionStatus='declined';return true;}
-function setHidden(c,id,hidden){const x=c.emotions.find(x=>x.id===id);if(!x||x.deletionStatus!=='declined')return false;x.hidden=!!hidden;return true;}
+function setHidden(c,id,hidden){const x=c.emotions.find(x=>x.id===id);if(!x||hidden&&x.deletionStatus!=='declined')return false;x.hidden=!!hidden;return true;}
 function maintain(c,time=Date.now()){
  init(c);const current=monthIndex(taipeiMonth(time));
  c.emotionTrends=c.emotionTrends.filter(t=>current-monthIndex(t.month)<12&&!c.emotionSuppressedMonths.includes(t.month));
@@ -64,6 +64,10 @@ function maintain(c,time=Date.now()){
   }
   cleanup(c,[x.id],[x.date]);
  }
+ // Legacy stories without sourceId must never survive their emotion record.
+ const liveIds=new Set(c.emotions.map(x=>x.id)),liveDates=new Set(c.emotions.map(x=>x.date));
+ const orphans=c.records.filter(r=>r.kind==='emotion'&&(r.sourceId?!liveIds.has(r.sourceId):!liveDates.has(r.date)));
+ cleanup(c,orphans.map(r=>r.id));
  return c;
 }
 function mergePolicy(incoming,current,time=Date.now()){
@@ -72,7 +76,7 @@ function mergePolicy(incoming,current,time=Date.now()){
  incoming.emotionSuppressedMonths=[...new Set([...incoming.emotionSuppressedMonths,...current.emotionSuppressedMonths])];
  // A pre-governance archive may contain unverifiable summaries: discard those on import.
  incoming.emotionTrends=incoming.emotionTrends.filter(t=>!incoming.emotionSuppressedMonths.includes(t.month));
- for(const e of current.emotionExpired){if(!incoming.emotionExpired.some(x=>x.id===e.id))incoming.emotionExpired.push({...e});cleanup(incoming,[e.id]);}
+ for(const e of current.emotionExpired){if(!incoming.emotionExpired.some(x=>x.id===e.id))incoming.emotionExpired.push({...e});cleanup(incoming,[e.id],incoming.emotions.filter(x=>x.id===e.id).map(x=>x.date));}
  return maintain(incoming,time);
 }
 Object.assign(G,{emotionData:data,recordEmotion:record,editBackfill,canReplyEmotion:canReply,replyEmotion:reply,sendCard:card,requestEmotionDeletion:requestDelete,decideEmotionDeletion:decideDelete,hideEmotion:setHidden,removeEmotion:remove,maintainEmotions:maintain,mergeEmotionPolicy:mergePolicy,initEmotionPolicy:init});

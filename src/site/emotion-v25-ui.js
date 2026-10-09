@@ -85,6 +85,16 @@ readState=function(){
  }
  return s;
 };
+// Finish a mutation by synchronizing same-browser backup cleanup immediately.
+const rawChange25=change;
+change=function(fn){
+ const result=rawChange25(fn);
+ if(result!==false&&result!==null){
+  try{state=readState();}
+  catch(e){blocked=true;$('#notice').textContent='資料已更新，但舊備份清理未完成，請檢查瀏覽器儲存空間。';return false;}
+ }
+ return result;
+};
 function applyImport25(incoming){if(!validPolicyImport25(incoming))throw Error('情緒備份格式不正確');const current=readState();for(const [id,c] of Object.entries(incoming.children))G.mergeEmotionPolicy(c,current.children[id]);return incoming;}
 const oldManage25=manageScreen;
 manageScreen=function(){return oldManage25()+'<section class="card"><h2>情緒資料保存</h2><p>建立後 30 天清除明細，月趨勢最多 12 個月。這是單機版：關閉網站時無法在背景清理，重新開啟時立即處理。已下載檔案與其他装置需自行清理。舊紀錄沒有建立時間時，以事件日期台灣時間零時起算。</p><p>舊备份匯入套用本機刪除清單與期限；清除瀏覽器資料會失去本機刪除清單。PIN 只防誤觸，不是安全帳號。</p></section>';};

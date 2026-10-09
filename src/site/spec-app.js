@@ -117,7 +117,7 @@ case 'seen-form':if(parent)modal(`<h2>❤️ 今天被我看見了</h2><form id=
 case 'adjust-form':if(parent)modal(`<h2>額外星星／修正誤差</h2><p>不用扣星處罰。負值只供修正記帳誤差，不能動用已保留的星星。</p><form id="adjust-form">${input('adjust-amount','增加／修正星星',10,'type="number" min="-100000" max="100000" step="1" required')}${input('adjust-reason','具體原因','','required maxlength="100"')}<button class="primary">預覽調整</button></form>`);break;
 case 'adjust-confirm':if(parent)finishMutation(change(c=>G.adjust(c,Number(d.amount),d.reason)),'已記錄調整');break;
 case 'yearbook':showYearbook();break;
-case 'import-confirm':if(parent&&importPreview){try{const old=localStorage.getItem(G.KEY);localStorage.setItem(G.KEY+'-before-import-'+Date.now(),old);const sanitized=applyImport25(importPreview);localStorage.setItem(G.KEY,JSON.stringify(sanitized));state=sanitized;importPreview=null;close();render();toast('匯入完成，原資料已另存本機備份')}catch(e){toast('匯入失敗，原資料未取代')}}break;
+case 'import-confirm':if(parent&&importPreview){try{const old=localStorage.getItem(G.KEY);localStorage.setItem(G.KEY+'-before-import-'+Date.now(),old);const sanitized=applyImport25(importPreview);localStorage.setItem(G.KEY,JSON.stringify(sanitized));state=readState();importPreview=null;close();render();toast('匯入完成，原資料已另存本機備份')}catch(e){toast('匯入失敗，原資料未取代')}}break;
 }
 },true);
 document.addEventListener('submit',e=>{

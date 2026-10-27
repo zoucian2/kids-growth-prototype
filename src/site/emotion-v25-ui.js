@@ -55,7 +55,7 @@ emotionEntry=function(m,allowReply=false){
  (m.deletionStatus==='declined'?v25button('先隱藏','hide',m.id):''))+'</article>');
  return body;
 };
-function trends25(){const xs=(c().emotionTrends||[]).filter(t=>t.count>=3);return '<h3>月度情緒趨勢</h3><p>至少 3 筆到期紀錄才顯示，不是分數或診斷；不保留原因或回覆。</p>'+xs.map(t=>'<article class="entry"><strong>'+esc(t.month)+'</strong><p>'+t.count+' 筆 · '+Object.entries(t.moods).map(([m,n])=>esc(m)+' '+n+' 次').join('、')+'</p></article>').join('');}
+function trends25(){const xs=(c().emotionTrends||[]).filter(t=>t.count>=10);return '<h3>月度情緒趨勢</h3><p>至少 10 筆到期紀錄才顯示粗略情緒分布，不是分數或診斷；不保留原因或回覆。</p>'+xs.map(t=>'<article class="entry"><strong>'+esc(t.month)+'</strong><p>'+t.count+' 筆 · '+Object.entries(t.moods).map(([m,n])=>esc(m)+' '+n+' 次').join('、')+'</p></article>').join('');}
 moodHistory=function(date){
  const xs=c().emotions.filter(x=>(parent||!x.hidden)&&(!date||x.date===date));
  modal('<h2>😊 '+esc(date||'我的心情紀錄')+'</h2><p>明細從建立起保留 30 天，月趨勢保留 12 個月。</p><div class="history three-record-list">'+xs.slice().reverse().map(x=>emotionEntry(x,parent)).join('')+'</div>'+(!date?v25button('已隱藏的紀錄','hidden')+trends25():'')+actions(''));

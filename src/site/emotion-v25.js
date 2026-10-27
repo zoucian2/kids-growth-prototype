@@ -47,8 +47,8 @@ function decideDelete(c,id,approved){init(c);const x=c.emotions.find(x=>x.id===i
 function setHidden(c,id,hidden){const x=c.emotions.find(x=>x.id===id);if(!x||hidden&&x.deletionStatus!=='declined')return false;x.hidden=!!hidden;return true;}
 function maintain(c,time=Date.now()){
  init(c);const current=monthIndex(taipeiMonth(time));
- c.emotionTrends=c.emotionTrends.filter(t=>current-monthIndex(t.month)<12&&!c.emotionSuppressedMonths.includes(t.month));
- c.emotionExpired=c.emotionExpired.filter(e=>current-monthIndex(e.month)<12);
+ c.emotionTrends=c.emotionTrends.filter(t=>current-monthIndex(t.month)<=12&&!c.emotionSuppressedMonths.includes(t.month));
+ c.emotionExpired=c.emotionExpired.filter(e=>current-monthIndex(e.month)<=12);
  for(const x of [...c.emotions]){
   if(c.emotionDeleted.includes(x.id)){cleanup(c,[x.id],[x.date]);continue;}
   // Legacy records have no creation timestamp: use event date as a documented conservative fallback.
